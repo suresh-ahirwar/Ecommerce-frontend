@@ -11,7 +11,7 @@ function Shop() {
                 {products.products.map((product, id) => (
                     <ProductCard key={id} product={product} />
                 ))}
-            </div>{" "}
+            </div>
         </div>
     );
 }
