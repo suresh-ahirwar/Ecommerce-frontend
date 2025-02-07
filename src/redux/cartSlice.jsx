@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     products: [],
-    quatity: 0,
+    totalQuantity: 0,
     totalPrice: 0,
 };
 
@@ -23,7 +23,7 @@ const cartSlice = createSlice({
                     id: newItem.id,
                     name: newItem.name,
                     price: newItem.price,
-                    quatity: 1,
+                    quantity: 1,
                     totalPrice: newItem.price,
                     image: newItem.image,
                 });
