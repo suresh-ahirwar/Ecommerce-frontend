@@ -1,14 +1,31 @@
 import { useState } from "react";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { useSelector } from "react-redux";
-
-const Checkout = () => {
-  const cart = useSelector(state => state.cart)
+import { useNavigate } from "react-router-dom";
+const Checkout = ({setOrder}) => {
+  const navigate = useNavigate();
   const [billingToggle,setBillingToggle] = useState(true);
   const [shippingToggle,setShippingToggle] = useState(false);
   const [paymentToggle,setPaymentToggle] = useState(false);
   const [paymentMethod,setPaymentMethod] = useState("cod");
-  
+  const [shippingInfo,setShippingInfo] = useState({
+    address:"",
+    city:"",
+    zip:""
+  })
+  const cart = useSelector(state => state.cart)
+  const handleOrder = () =>{
+    const newOrder = {
+      products:cart.products,
+      orderNumber:"12344",
+      shippingInformation:shippingInfo,
+      totalPrice:cart.totalPrice
+    }
+    setOrder(newOrder)
+    navigate("/order-confirmation")
+  }
+
+
   return (
     <div className="container mx-auto py-8 min-h-96 px-4 md:px-16 lg:px-24  border-1">
       <h3 className="text-2xl font-semibold mb-4">CHECKOUT</h3>
@@ -53,18 +70,18 @@ const Checkout = () => {
             <div className={`space-y-4 ${shippingToggle ? "" : "hidden"}`}>
               <div>
                 <label  className="block text-gray-700" >Address</label>
-                <input type="text" placeholder="Enter Address" name="Address" className="w-full px-3 py-2 border border-gray-300 md:shadow"/>
+                <input type="text" placeholder="Enter Address" name="Address" className="w-full px-3 py-2 border border-gray-300 md:shadow" onChange={(e) => setShippingInfo({...shippingInfo,address:e.target.value})}/>
               </div>
 
              
               <div>
                 <label  className="block text-gray-700">City</label>
-                <input type="email" name="City" placeholder="Enter City" className="w-full px-3 py-2 border border-gray-300 md:shadow"/>
+                <input type="email" name="City" placeholder="Enter City" className="w-full px-3 py-2 border border-gray-300 md:shadow" onChange={(e) =>setShippingInfo({...shippingInfo,city:e.target.value})}/>
               </div>
 
               <div>
                 <label className="block text-gray-700">Zip Code</label>
-                <input type="text" name="Zip Code" placeholder="Enter Zip Code" className="w-full px-3 py-2 border border-gray-300 md:shadow"/>
+                <input type="text" name="Zip Code" placeholder="Enter Zip Code" className="w-full px-3 py-2 border border-gray-300 md:shadow" onChange={(e) => setShippingInfo({...shippingInfo,zip:e.target.value})}/>
               </div>
             </div>
 
@@ -148,7 +165,7 @@ const Checkout = () => {
             <span className="font-semibold">${cart.totalPrice.toFixed(2)}</span>
           </div>
         </div>
-        <button className="w-full bg-red-600 text-white py-2 mt-6 hover:bg-red-800">Place Order</button>
+        <button className="w-full bg-red-600 text-white py-2 mt-6 hover:bg-red-800" onClick={handleOrder}>Place Order</button>
         </div>
       </div>
     </div>
