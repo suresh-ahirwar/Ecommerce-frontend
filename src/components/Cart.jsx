@@ -6,8 +6,10 @@ import Modal from "./Modal";
 import ChangeAddress from "./ChangeAddress";
 import { decreaseQuantity, increaseQuantity, removeCart } from "../redux/cartSlice";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 function Cart() {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const cart = useSelector((state) => state.cart);
     const [address, setAddress] = useState("main street, 0012");
     const [ismodalopen,setisModalOpen] = useState(false)
@@ -94,7 +96,7 @@ function Cart() {
                                     <span>Total price:</span>
                                     <span>${cart.totalPrice.toFixed(2)}</span>
                                 </div>
-                                <button className="w-full bg-red-600 text-white py-2 hover:bg-red-8 rounded-[5px]">Proceed To Chekcout</button>
+                                <button className="w-full bg-red-600 text-white py-2 hover:bg-red-8 rounded-[5px]" onClick={()=> navigate('/checkout')}>Proceed To Chekcout</button>
                             </div>
                     </div>
                     <Modal ismodalopen={ismodalopen} setisModalOpen={setisModalOpen}>
